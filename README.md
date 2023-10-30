@@ -38,11 +38,24 @@ The following code snippet must be added to your website on every page load, eit
 ```
 > **Note:** 
 >- Remember to replace  **<YOUR_TENANT_ID>** and **<YOUR_TENANT_TOKEN>** ,with the actual details that you receive from Optimove’s Integration Team.
+>For example:  
+>```html
+><script async src="https://sdk.optimove.net/websdk/?tenant_id=000&tenant_token=99999wwwwwwwAAAAABBB"></script>
+>```
 
-For example:  
-```html
-<script async src="https://sdk.optimove.net/websdk/?tenant_id=000&tenant_token=99999wwwwwwwAAAAABBB"></script>
-```
+> **Note if you are also implementing the Web Push Notifications:** 
+>- If you are also implementing the [Web Push Notifications](#web-push-prerequisites), it is necessary to host a [Service Worker](#service-worker) file called `worker.js`, hosted at the root of your domain. For example, if your site is `https://example.com`, the SDK will search in the following path: `https://example.com/worker.js`.
+>- If your worker file is hosted at the root of the domain, add this line to your existing implementation:
+> 
+>```javascript
+>importScripts('https://static.app.delivery/sdks/web/optimove-worker.js');
+>```
+>- If your worker file is not hosted at the root of the domain, you can customize the location path and the name of the service worker by passing an attribute to the Optimove script tag - `data-optimove-service-worker-path` , for example:
+>```html
+><script async src="https://sdk.optimove.net/websdk/?tenant_id=000&tenant_token=99999wwwwwwwAAAAABBB" data-optimove-service-worker-path="/custom/path/to/yourWorker.js"></script>
+>``` 
+
+
 ## <a id="track-visits"></a>Tracking Page Visits 
 
 In order to track page visits, call the setPageVisit() function on every page of the website to ensure that accurate user counts and session time metrics are collected.For customers, If a user is identified you can add the SDK_ID to the setPageVisit() function, see examples below
@@ -315,7 +328,7 @@ optimoveSDK.API.reportEvent ('add_to_wishlist', params, callback,SDK_ID);
 addToWishList('my wish list 1', 123456, 'product name', 1.99);
 ```
 > **Note:**
-> >-   Event names and parameters must first be configured within the Optimove instance using the  [Events Configuration Screen](https://academy.optimove.com/hc/en-us/articles/8738483087517-Configuring-Events-in-Optimove)
+>-   Event names and parameters must first be configured within the Optimove instance using the  [Events Configuration Screen](https://academy.optimove.com/hc/en-us/articles/8738483087517-Configuring-Events-in-Optimove)
 > -   Event and parameter names are case sensitive.
 > -   Events and parameters use lowercase and snake_case as a naming convention. Separate each word with one underscore character (_) and no spaces. (e.g., checkout_completed)
 > -   The parameter types available for use in event-reporting functions are:  
